@@ -5,7 +5,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <script language="javascript" type="text/javascript" src="encrypt.js"></script>
+  <script language="JavaScript" type="text/javascript" src="jsbn.js"></script>
+  <script language="JavaScript" type="text/javascript" src="random.js"></script>
+  <script language="JavaScript" type="text/javascript" src="hash.js"></script>
+  <script language="JavaScript" type="text/javascript" src="rsa.js"></script>
+  <script language="JavaScript" type="text/javascript" src="aes.js"></script>
+  <script language="JavaScript" type="text/javascript" src="api.js"></script>
 
 </head>
 
@@ -14,12 +19,11 @@
   <br />
   <br />
   <h2> Part 1. Get your own public and private keys</h2><br />
-  <h3> Enter two large prime numbers of varying magnitudes</h3><br />
-  <input type="number" id="prime1"></input><br />
-  <input type="number" id="prime2"></input><br />
+  <h3> Enter a passphrase</h3><br />
+  <input type="text" id="passphrase"></input><br />
   <br />
-  <h3> Enter a random large integer</h3><br />
-  <input type="number" id="randomK"></input><br />
+  <h3> Enter a number of bits for your key (must be a power of 2)</h3><br />
+  <input type="number" id="randomPow"></input><br />
   <br />
   <button type="submit" onclick="return keygen()">Generate Public Key</button><br />
   <h3 id="pubkey"></h3>
