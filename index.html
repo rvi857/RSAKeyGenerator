@@ -12,10 +12,45 @@
   <script language="JavaScript" type="text/javascript" src="aes.js"></script>
   <script language="JavaScript" type="text/javascript" src="api.js"></script>
   <script>
+    function isPowerOf2(num) {
+      for (var i = num; i > 2; i /= 2) {
+        if (i % 2 != 0) return false;
+      }
+      return true;
+
+    }
+
+    function print(string)
+    {
+      document.write(string + "\n\n");
+    }
+
+    var key;
+
     function keygen() {
-    var passphrase = document.getElementById("passphrase").value;
-    var bits = document.getElementById("randomPow").value;
-  }
+
+      var passphrase = document.getElementById("passphrase").value;
+      var bits = document.getElementById("randomPow").value;
+      if (!isPowerOf2(bits)) {
+        alert("That's not a power of 2! Please try again!");
+        document.getElementById("randomPow").value = "";
+        return;
+      }
+
+      key = cryptico.generateRSAKey(passphrase, bits);
+      var pubkey = cryptico.publicKeyString(key);
+
+      document.getElementById("pubhead").innerHTML = "Public Key:";
+      document.getElementById("pubkey").innerHTML = pubkey;
+
+    }
+
+    function encrypt() {
+      var pubkey = document.getElementById("keyInput").value;
+      var message = document.getElementById("message").value;
+
+    }
+
   </script>
 
 </head>
@@ -26,12 +61,27 @@
   <br />
   <h2> Part 1. Get your own public and private keys</h2><br />
   <h3> Enter a passphrase</h3><br />
-  <input type="text" id="passphrase"></input><br />
+  <input type="text" style="width:600px;"cols=50 id="passphrase"></input><br />
   <br />
   <h3> Enter a number of bits for your key (must be a power of 2)</h3><br />
   <input type="number" id="randomPow"></input><br />
   <br />
   <button type="submit" onclick="return keygen()">Generate Public Key</button><br />
-  <h3 id="pubkey"></h3>       
+  <br />
+  <h3 id="pubhead"></h3>
+  <p id="pubkey"></p>
+  <br />
+  <br />
+  <h2> Part 2. Encrypt message using key</h2><br />
+  <h3> Copy over your public key and paste it here </h3><br />
+  <input type="text" style="width:800px;" id="keyInput"></input><br /><br />
+  <h3> Enter a message to encrypt</h3><br />
+  <textarea id="message" rows="8" cols="50">
+    
+  </textarea>
+  <br />
+  <br />
+  <button type="submit" onclick="return encrypt()">Encrypt</button>
+  <br />
 </body>
 </html>
