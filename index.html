@@ -26,18 +26,18 @@
     }
 
     var key;
+    var encryptedMessage;
 
     function keygen() {
 
       var passphrase = document.getElementById("passphrase").value;
-      var bits = document.getElementById("randomPow").value;
-      if (!isPowerOf2(bits)) {
-        alert("That's not a power of 2! Please try again!");
-        document.getElementById("randomPow").value = "";
+      var bits = document.getElementById("getbits");
+      var bitval = bits.options[bits.selectedIndex].value;
+      if (bitval === 0) {
+        alert("Please select an option.");
         return;
       }
-
-      key = cryptico.generateRSAKey(passphrase, bits);
+      key = cryptico.generateRSAKey(passphrase, bitval);
       var pubkey = cryptico.publicKeyString(key);
 
       document.getElementById("pubhead").innerHTML = "Public Key:";
@@ -48,6 +48,49 @@
     function encrypt() {
       var pubkey = document.getElementById("keyInput").value;
       var message = document.getElementById("message").value;
+
+      var newMessage = cryptico.encrypt(message, "" + pubkey);
+      encryptedMessage = newMessage.cipher;
+
+      if (newMessage.status === "failure") {
+        alert("Encryption failed, please try again!");
+        return;
+      }
+
+      document.getElementById("messageHead").innerHTML = "Encrypted message: ";
+
+      var para = document.createElement("textarea");
+      para.id = "cryptmess"
+      para.rows = "8";
+      para.cols = "60";
+      para.value = encryptedMessage;
+      document.getElementById("showSecret").appendChild(para);
+
+    }
+
+    function decrypt() {
+      var message = document.getElementById("message2").value;
+      var old = document.getElementById("cryptmess").value;
+      if (("" + message) !== ("" + old)) {
+        alert("You didn't copy it over correctly, please try again!");
+        return;
+      }
+
+      var newMessage = cryptico.decrypt(encryptedMessage, key);
+
+      if (newMessage.status === "failure") {
+        alert("Decryption failed, please try again!");
+        return;
+      }
+
+      document.getElementById("messageHead2").innerHTML = "Decrypted message: ";
+
+      var para = document.createElement("textarea");
+      para.rows = "8";
+      para.cols = "60";
+      para.value = newMessage.plaintext;
+      document.getElementById("showOriginal").appendChild(para);
+
 
     }
 
@@ -63,25 +106,42 @@
   <h3> Enter a passphrase</h3><br />
   <input type="text" style="width:600px;"cols=50 id="passphrase"></input><br />
   <br />
-  <h3> Enter a number of bits for your key (must be a power of 2)</h3><br />
-  <input type="number" id="randomPow"></input><br />
+  <h3> Number of bits for encryption</h3>
+  <select id="getbits">
+    <option value="0">Select encryption bits</option>
+    <option value="512">512</option>
+    <option value="1024">1024</option>
+    <option value="2048">2048</option>
+  </select><br />
   <br />
   <button type="submit" onclick="return keygen()">Generate Public Key</button><br />
   <br />
   <h3 id="pubhead"></h3>
   <p id="pubkey"></p>
-  <br />
-  <br />
   <h2> Part 2. Encrypt message using key</h2><br />
-  <h3> Copy over your public key and paste it here </h3><br />
+  <h3> Copy over your public key </h3><br />
   <input type="text" style="width:800px;" id="keyInput"></input><br /><br />
   <h3> Enter a message to encrypt</h3><br />
-  <textarea id="message" rows="8" cols="50">
+  <textarea id="message" rows="8" cols="60">
     
   </textarea>
   <br />
   <br />
   <button type="submit" onclick="return encrypt()">Encrypt</button>
   <br />
-</body>
+  <br />
+  <div id="showSecret">
+    <h3 id="messageHead"></h3>
+  </div>
+  <h2> Part 3. Decrypt coded message </h2><br />
+  <h3> Copy over the message you just encrypted </h3>
+  <textarea id="message2" rows="8" cols="60">
+  </textarea>
+  <br />
+  <br />
+  <button type="submit" onclick="return decrypt()">Decrypt</button>
+  <div id="showOriginal">
+    <h3 id="messageHead2"></h3>
+  </div>
+  </body>
 </html>
