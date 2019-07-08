@@ -11,6 +11,12 @@
   <script language="JavaScript" type="text/javascript" src="rsa.js"></script>
   <script language="JavaScript" type="text/javascript" src="aes.js"></script>
   <script language="JavaScript" type="text/javascript" src="api.js"></script>
+  <script>
+    function keygen() {
+    var passphrase = document.getElementById("passphrase").value;
+    var bits = document.getElementById("randomPow").value;
+  }
+  </script>
 
 </head>
 
@@ -26,18 +32,6 @@
   <input type="number" id="randomPow"></input><br />
   <br />
   <button type="submit" onclick="return keygen()">Generate Public Key</button><br />
-  <h3 id="pubkey"></h3>
-  
-  <h2> Part 2. Provide the data to be encrypted </h2><br />
-  <textarea rows="5" cols="50">
-    Enter message to be encrypted here.
-  </textarea>
-  <h1> Enter public key: </h1>
-  <input type="text" name="key"></input>
-  <br />
-  <button type="submit" onclick="return encrypt()">
-    Encrypt message
-  </button>
-                          
+  <h3 id="pubkey"></h3>       
 </body>
 </html>
