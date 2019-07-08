@@ -5,16 +5,33 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script language="javascript" type="text/javascript" src="encrypt.js"></script>
 
 </head>
 
 <body>
-  <h1> Enter message here: </h1>
-  <textarea rows="5" cols="50">
-    <div class="text-muted"> Enter message to be encrypted here. </div>
-  </textarea>
+  <h1> How companies encrypt their data with an RSA algorithm </h1>
   <br />
-  <button type="submit">
+  <br />
+  <h2> Part 1. Get your own public and private keys</h2><br />
+  <h3> Enter two large prime numbers of varying magnitudes</h3><br />
+  <input type="number" id="prime1"></input><br />
+  <input type="number" id="prime2"></input><br />
+  <br />
+  <h3> Enter a random large integer</h3><br />
+  <input type="number" id="randomK"></input><br />
+  <br />
+  <button type="submit" onclick="return keygen()">Generate Public Key</button><br />
+  <h3 id="pubkey"></h3>
+  
+  <h2> Part 2. Provide the data to be encrypted </h2><br />
+  <textarea rows="5" cols="50">
+    Enter message to be encrypted here.
+  </textarea>
+  <h1> Enter public key: </h1>
+  <input type="text" name="key"></input>
+  <br />
+  <button type="submit" onclick="return encrypt()">
     Encrypt message
   </button>
                           
